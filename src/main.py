@@ -30,8 +30,8 @@ for i in range(n):
     for j in range(m):
         problem.set_initial_value(state(pos_i[i], pos_j[j]), True)
 
-# Acción switch(x, y): Pulsar el botón o la bombilla que se encuentra en la posición (x, y)
-toggle = InstantaneousAction("switch", x=light, y=light)
+# Acción toggle(x, y): Pulsar el botón o la bombilla que se encuentra en la posición (x, y)
+toggle = InstantaneousAction("toggle", x=light, y=light)
 x = toggle.parameter("x")
 y = toggle.parameter("y")
 
@@ -42,7 +42,6 @@ for i in range(n):
         for dx, dy in deltas:
             ni, nj = i + dx, j + dy
             if 0 <= ni < n and 0 <= nj < m:
-                # Si se pulsa (pi, qj), se alterna (pni, qnj): (se altera el estado de sus adyacentes)
                 toggle.add_effect(
                     state(pos_i[ni], pos_j[nj]),
                     Not(state(pos_i[ni], pos_j[nj])),
@@ -57,7 +56,7 @@ for i in range(n):
         problem.add_goal(Not(state(pos_i[i], pos_j[j])))
 
 
-# Resolver el problema usando ENHSP
+# Resolver el problema
 with OneshotPlanner(name="enhsp") as planner:
     result = planner.solve(problem)
     if result.status == PlanGenerationResultStatus.SOLVED_SATISFICING:
