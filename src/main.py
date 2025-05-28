@@ -6,23 +6,23 @@ from unified_planning.shortcuts import *
 n, m = 5, 5
 
 # Crear el problema
-problem = Problem("lights_out")
+problem = Problem("light_out")
 
 # Tipos
-pos_type = UserType("pos")
+light = UserType("light")
 
-# Crear objetos de posición (guardamos referencias para uso posterior)
+# Crear objetos de posición
 pos_i = {}  # filas
 pos_j = {}  # columnas
 for i in range(n):
-    obj = problem.add_object(f"p{i}", pos_type)
+    obj = problem.add_object(f"p{i}", light)
     pos_i[i] = obj
 for j in range(m):
-    obj = problem.add_object(f"q{j}", pos_type)
+    obj = problem.add_object(f"q{j}", light)
     pos_j[j] = obj
 
 # Fluente: si una celda (x, y) está encendida
-state = Fluent("state", BoolType(), x=pos_type, y=pos_type)
+state = Fluent("state", BoolType(), x=light, y=light)
 problem.add_fluent(state)
 
 # Inicialización: todas las luces encendidas
@@ -30,8 +30,8 @@ for i in range(n):
     for j in range(m):
         problem.set_initial_value(state(pos_i[i], pos_j[j]), True)
 
-# Acción toggle(x, y)
-toggle = InstantaneousAction("switch", x=pos_type, y=pos_type)
+# Acción switch(x, y): Pulsar el botón o la bombilla que se encuentra en la posición (x, y)
+toggle = InstantaneousAction("switch", x=light, y=light)
 x = toggle.parameter("x")
 y = toggle.parameter("y")
 
@@ -42,7 +42,7 @@ for i in range(n):
         for dx, dy in deltas:
             ni, nj = i + dx, j + dy
             if 0 <= ni < n and 0 <= nj < m:
-                # Si se pulsa (pi, qj), se alterna (pni, qnj)
+                # Si se pulsa (pi, qj), se alterna (pni, qnj): (se altera el estado de sus adyacentes)
                 toggle.add_effect(
                     state(pos_i[ni], pos_j[nj]),
                     Not(state(pos_i[ni], pos_j[nj])),
