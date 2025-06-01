@@ -7,7 +7,7 @@ n, m = 5, 5
 s = 5  
 deltas = [(0, 0), (1, 0), (-1, 0), (0, 1), (0, -1)]
 
-class LightsOutUP:
+class LightsOut:
     def __init__(self, n, m, beam_width):
         self.n, self.m, self.s = n, m, beam_width
 
@@ -100,7 +100,7 @@ class LightsOutUP:
         return None
 
 if __name__ == "__main__":
-    solver = LightsOutUP(n, m, beam_width=s)
+    solver = LightsOut(n, m, beam_width=s)
     plan = solver.buscar_con_anchura_poda()
 
     if plan:
