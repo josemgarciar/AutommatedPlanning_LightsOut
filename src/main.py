@@ -57,11 +57,12 @@ for i in range(n):
 
 
 # Resolver el problema
-with OneshotPlanner(name="enhsp") as planner:
-    result = planner.solve(problem)
-    if result.status == PlanGenerationResultStatus.SOLVED_SATISFICING:
-        print("Plan encontrado:")
-        for action in result.plan.actions:
-            print(action)
-    else:
-        print("No se pudo encontrar un plan.")
+if __name__ == "__main__":
+    with OneshotPlanner(name="enhsp") as planner:
+        result = planner.solve(problem)
+        if result.status == PlanGenerationResultStatus.SOLVED_SATISFICING:
+            print("Plan encontrado:")
+            for action in result.plan.actions:
+                print(action)
+        else:
+            print("No se pudo encontrar un plan.")
