@@ -6,7 +6,7 @@ from unified_planning.shortcuts import *
 n, m = 5, 5
 
 # Crear el problema
-problem = Problem("light_out")
+problem = Problem("lights_out")
 
 # Tipos
 light = UserType("light")

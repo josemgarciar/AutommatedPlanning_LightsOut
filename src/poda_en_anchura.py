@@ -31,7 +31,7 @@ class LightsOut:
         X = [prob.add_object(f"x{i}", cell) for i in range(self.n)]
         Y = [prob.add_object(f"y{j}", cell) for j in range(self.m)]
 
-        state = Fluent("on", BoolType(), x=cell, y=cell)
+        state = Fluent("state", BoolType(), x=cell, y=cell)
         prob.add_fluent(state)
 
         for i in range(self.n):
