@@ -1,5 +1,6 @@
 from unified_planning.shortcuts import *
 from unified_planning.engines import PlanGenerationResultStatus
+from unified_planning.io import PDDLWriter
 import copy
 
 # Parámetros
@@ -77,6 +78,12 @@ class LightsOut:
                 visitados.add(estado_hash)
 
                 problema = self.crear_problema(estado)
+                
+                # Generar archivos PDDL
+                writer = PDDLWriter(problema, rewrite_bool_assignments=True)
+                writer.write_domain(f"domain{self.n}x{self.m}.pddl")
+                writer.write_problem(f"problem{self.n}x{self.m}.pddl")
+                
                 with OneshotPlanner(name="enhsp") as planner:
                     result = planner.solve(problema)
                     if result.status == PlanGenerationResultStatus.SOLVED_SATISFICING:

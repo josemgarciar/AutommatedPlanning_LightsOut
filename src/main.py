@@ -1,6 +1,7 @@
 from unified_planning.engines import PlanGenerationResultStatus
 from unified_planning.shortcuts import OneshotPlanner
 from unified_planning.shortcuts import *
+from unified_planning.io import PDDLWriter
 
 # Dimensiones del tablero
 n, m = 5, 5
@@ -58,6 +59,11 @@ for i in range(n):
 
 # Resolver el problema
 if __name__ == "__main__":
+    # Generar archivos PDDL
+    writer = PDDLWriter(problem, rewrite_bool_assignments=True)
+    writer.write_domain(f"domain{n}x{m}.pddl")
+    writer.write_problem(f"problem{n}x{m}.pddl")
+    
     with OneshotPlanner(name="enhsp") as planner:
         result = planner.solve(problem)
         if result.status == PlanGenerationResultStatus.SOLVED_SATISFICING:
