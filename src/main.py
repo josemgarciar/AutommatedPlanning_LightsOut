@@ -21,7 +21,7 @@ for j in range(m):
     obj = problem.add_object(f"q{j}", light)
     pos_j[j] = obj
 
-# Fluente: si una celda (x, y) está encendida
+# Fluent: si una celda (x, y) está encendida
 state = Fluent("state", BoolType(), x=light, y=light)
 problem.add_fluent(state)
 
